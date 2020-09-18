@@ -1,27 +1,13 @@
 import React, { useEffect } from 'react'
 import classNames from "classnames";
 
-let endMineSweeperGame = false;
-
-const Cell = (props) => {
-
-  const {flag, setFlag, clicked, clickCell, row, column, onReveal, value, bombTouched, revealedCells } = props
-
-
-  // const [flag, setFlag] = useState("")
+const Cell = ({flag, setFlag, clicked, clickCell, row, column, value }) => {
 
   const isMine = value === "☀"
 
   const handleClick = (userInitiated) => {
-    if (clicked) return
     if (!userInitiated && isMine) return
-
-    clickCell(row, column)
-    
-    if(isMine) bombTouched()
-    
-    if(value === "")onReveal(row, column)
-    
+    clickCell(row, column)     
   }
 
   useEffect(() => {
@@ -40,23 +26,16 @@ const Cell = (props) => {
     bomb: value === "☀"
   });
 
-// const el =  document.getElementById(`0_0`)
-// console.log(el)
-// el.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
   return (
     <td
-      // onDoubleClick={handleContextMenu()}
       onContextMenu={handleContextMenu}
       id={`${row}_${column}`}
       className={cellsClass}
       onClick={() => handleClick(true)}
-      // onContextMenu={handleContextMenu}
     >
       {clicked && !flag ? value : ""}
       {flag && "⚑"}
-    </td>
-
-    
+    </td>    
   )
 }
 

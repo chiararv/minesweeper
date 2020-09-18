@@ -7,21 +7,18 @@ import {
 } from "../helpers/helper";
 
 export const MineField = () => {
+
   const [boardSize, setBoardSize] = useState(10)
   const [bombCount, setBombCount] = useState(10)
   const [board, setBoard] = useState(null)
 
 
   useEffect(() => {
-     let initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(boardSize, boardSize), "☀", bombCount), "☀")
-
-     setBoard(initBoard)
-    }, [])
+    let initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(boardSize, boardSize), "☀", bombCount), "☀")
+    setBoard(initBoard)
+  }, [])
     
-  console.log("b",board)
-
   const setFlag = (row, col) => {
-
     const newBoard = [...board]
     if (!newBoard[row][col].clicked){
       newBoard[row][col].flag = newBoard[row][col].flag ? false : true
@@ -29,7 +26,13 @@ export const MineField = () => {
     setBoard(newBoard)
   }
 
-  const clickCell = (row, col) => {
+  const clickCell = (row, col) => {    
+    const isMine =board[row][col].value === "☀"
+    const isEmpty =board[row][col].value === ""
+    
+    if(isMine) mineTouched()   
+    if(isEmpty)revealNeighbors(row, col)
+
     const newBoard = [...board]
     newBoard[row][col].clicked = true
     setBoard(newBoard)
@@ -38,35 +41,29 @@ export const MineField = () => {
   const revealNeighbors = (row, col) => {
     const arr = []
     for(let i=-1;i<=1;i++){
-        for(let j=-1;j<=1;j++){
-            if (
-              row + i >= 0
-              && row + i <= boardSize - 1
-              && col + j >= 0
-              && col + j <= boardSize - 1
-              ){
-                arr.push([row + i , col + j])
-                // console.log([row + i , y + j])
-                // cellRef.current.handleClick(false);
-                // (i != 0 || j != 0)
-            }
+      for(let j=-1;j<=1;j++){
+        if (
+          row + i >= 0
+          && row + i <= boardSize - 1
+          && col + j >= 0
+          && col + j <= boardSize - 1
+          ){
+            arr.push([row + i , col + j])
         }
+      }
     }
+
     const newBoard = [...board]
     arr.forEach(el => { newBoard[el[0]][el[1]].clicked = true })
     setBoard(newBoard)
-
-    // setRevealedCells([...reveleadCells, ...arr])
-
   }
 
-  const onBomb = () => {
-    alert("Ooops, you stepped on a mine! What a shame");
-    // for(let i=0; i<boardSize; i++){
-    //     for(let j=0; j<boardSize; j++){
-    //         board[i][j].endGameReveal();
-    //     }
-    // }
+  const mineTouched = () => {
+    const newBoard = [...board]
+    newBoard.forEach(item => {
+     return item.forEach(subitem => subitem.clicked = true)
+    })
+    setBoard(newBoard)
   }
 
   return (
@@ -84,9 +81,7 @@ export const MineField = () => {
                       column={subitem.col}
                       value={subitem.value}
                       clicked={subitem.clicked}
-                      onReveal= {revealNeighbors}
                       clickCell = {clickCell}
-                      bombTouched = {onBomb}
                       setFlag={setFlag}
                       flag={subitem.flag}
                     />
