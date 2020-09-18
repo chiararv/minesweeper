@@ -63,9 +63,9 @@ td {
   border: 4px solid darkgrey !important;
 }
 
-p {
+/* p {
   margin-left: 31%;
-}
+} */
 
 .bomb.clicked {
   color: rgb(216, 0, 0) !important;

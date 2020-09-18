@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import classNames from "classnames";
 
-const Cell = ({flag, setFlag, clicked, clickCell, row, column, value }) => {
+const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
 
   const isMine = value === "☀"
 
@@ -33,8 +33,8 @@ const Cell = ({flag, setFlag, clicked, clickCell, row, column, value }) => {
       className={cellsClass}
       onClick={() => handleClick(true)}
     >
-      {clicked && !flag ? value : ""}
-      {flag && "⚑"}
+      {clicked && other !== "⚑" ? value : ""}
+      {!clicked && other }
     </td>    
   )
 }

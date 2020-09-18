@@ -8,7 +8,7 @@ export function nestedArray(row, col) {
           col: j,
           value: "",
           clicked: false,
-          flag: false
+          other: "",
         }
         innerArray.push(cellProperties);
       }

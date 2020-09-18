@@ -6,22 +6,35 @@ import {
   valsAdjacentCounts
 } from "../helpers/helper";
 
-export const MineField = () => {
+export const MineField = ({height, width}) => {
 
-  const [boardSize, setBoardSize] = useState(10)
   const [bombCount, setBombCount] = useState(10)
   const [board, setBoard] = useState(null)
 
 
   useEffect(() => {
-    let initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(boardSize, boardSize), "☀", bombCount), "☀")
+    let initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(height, width), "☀", bombCount), "☀")
     setBoard(initBoard)
-  }, [])
+  }, [height, width])
     
   const setFlag = (row, col) => {
     const newBoard = [...board]
     if (!newBoard[row][col].clicked){
-      newBoard[row][col].flag = newBoard[row][col].flag ? false : true
+      let other
+      switch (newBoard[row][col].other) {
+        case "":
+          other = "⚑"
+          break;
+        case "⚑":
+          other = "?"
+          break
+        case "?":
+          other = ""
+          break
+        default:
+          break;
+      }
+      newBoard[row][col].other = other
     }
     setBoard(newBoard)
   }
@@ -29,24 +42,32 @@ export const MineField = () => {
   const clickCell = (row, col) => {    
     const isMine =board[row][col].value === "☀"
     const isEmpty =board[row][col].value === ""
-    
-    if(isMine) mineTouched()   
-    if(isEmpty)revealNeighbors(row, col)
 
-    const newBoard = [...board]
-    newBoard[row][col].clicked = true
-    setBoard(newBoard)
+    const isFlag = board[row][col].other === "⚑"
+    console.log(isFlag, board[row][col].other, row, col)
+
+    if(!isFlag) {
+      if(isMine) mineTouched()   
+      if(isEmpty)revealNeighbors(row, col)
+      const newBoard = [...board]
+      newBoard[row][col].clicked = true
+      setBoard(newBoard)
+    }
+
+
+    
   }
 
   const revealNeighbors = (row, col) => {
+
     const arr = []
     for(let i=-1;i<=1;i++){
       for(let j=-1;j<=1;j++){
         if (
           row + i >= 0
-          && row + i <= boardSize - 1
+          && row + i <= height - 1
           && col + j >= 0
-          && col + j <= boardSize - 1
+          && col + j <= width - 1
           ){
             arr.push([row + i , col + j])
         }
@@ -83,7 +104,7 @@ export const MineField = () => {
                       clicked={subitem.clicked}
                       clickCell = {clickCell}
                       setFlag={setFlag}
-                      flag={subitem.flag}
+                      other={subitem.other}
                     />
                   );
                 })}
