@@ -1,21 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Cell from "./Cell";
-import {
-  nestedArray,
-  populateNestedArray,
-  valsAdjacentCounts
-} from "../helpers/helper";
 
-export const MineField = ({height, width}) => {
-
-  const [bombCount, setBombCount] = useState(10)
-  const [board, setBoard] = useState(null)
-
-
-  useEffect(() => {
-    let initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(height, width), "☀", bombCount), "☀")
-    setBoard(initBoard)
-  }, [height, width])
+export const MineField = ({height, width, board, setBoard}) => {
     
   const setFlag = (row, col) => {
     const newBoard = [...board]
@@ -52,10 +38,7 @@ export const MineField = ({height, width}) => {
       const newBoard = [...board]
       newBoard[row][col].clicked = true
       setBoard(newBoard)
-    }
-
-
-    
+    }  
   }
 
   const revealNeighbors = (row, col) => {
