@@ -24,10 +24,16 @@ function App() {
     setBoard(initBoard)
   }, [height, width])
 
+  const saveGame = () => {
+    localStorage.setItem( 'savedBoard', JSON.stringify(board))
+  }
+  const savedBoard = JSON.parse(localStorage.getItem('savedBoard'))
+  // console.log(savedBoard)
+
   return (
     <>
-      <MineField className="map" height={height} width={width} board={board} setBoard={setBoard}/>
-      <CustomModal setHeight={setHeight} setWidth={setWidth} />
+      <MineField className="map" height={height} width={width} board={board} setBoard={setBoard} saveGame={saveGame} />
+      <CustomModal setHeight={setHeight} setWidth={setWidth} setBoard={setBoard} savedBoard={savedBoard} />
     </>
   );
 }

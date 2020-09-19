@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -37,15 +37,10 @@
   }
 }
 
-table {
-  display: block;
-  border-collapse: separate;
-  border-spacing: 0px;
-  margin-left: 31%;
-}
 
+/* 
 td {
-  background-color: rgb(68, 122, 68);
+  background-color: rgb(68, 102, 122);
   border-bottom: 4px solid grey;
   border-right: 4px solid grey;
   border-top: 4px solid lightgray;
@@ -53,9 +48,10 @@ td {
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
-  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 25px;
+  text-align: center;
 }
 
 .clicked {
@@ -67,8 +63,8 @@ td {
   margin-left: 31%;
 } */
 
-.bomb.clicked {
+/* .bomb.clicked {
   color: rgb(216, 0, 0) !important;
-  font-size: 30px;
+  font-size: 25px;
   padding: 0px;
-}
+} */  

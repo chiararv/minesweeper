@@ -1,8 +1,33 @@
-import React from "react";
-import Cell from "./Cell";
+import React from "react"
+import Cell from "./Cell"
+import {Button} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 
-export const MineField = ({height, width, board, setBoard}) => {
-    
+
+const useStyles = makeStyles({
+  container: {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  table: {
+    display: 'block',
+    borderCollapse: 'separate',
+    borderSpacing: 0,
+  },
+  btn: {
+    position: 'relative',
+    left: '211px',
+    marginTop: 30
+  },
+})
+export const MineField = ({height, width, board, setBoard, saveGame}) => {
+  
+  const classes = useStyles()
+
   const setFlag = (row, col) => {
     const newBoard = [...board]
     if (!newBoard[row][col].clicked){
@@ -70,9 +95,11 @@ export const MineField = ({height, width, board, setBoard}) => {
     setBoard(newBoard)
   }
 
+
+
   return (
-    <div>
-      <table>
+    <div className={classes.container}>
+      <table className={classes.table}>
         <tbody>
           {board && board.map((item, row) => {
             return (
@@ -96,6 +123,9 @@ export const MineField = ({height, width, board, setBoard}) => {
           })}
         </tbody>
       </table>
+      <Button className={classes.btn} variant="outlined" color="primary" onClick={saveGame}>
+        Guardar juego
+      </Button>
     </div>
   )
 }

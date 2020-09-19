@@ -22,17 +22,35 @@ const useStyles = makeStyles({
           outline: 'none'
         }
     },
+    paper: {
+        width: 500,
+        height: 500,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 30,
+        textAlign: 'justify',
+    }
   });
 
-const CustomModal = ({setHeight, setWidth}) => {
+const CustomModal = ({setHeight, setWidth, savedBoard, setBoard}) => {
     const classes = useStyles()
     const [open, setOpen] = useState(true)
-    const [step, setStep] = useState("first")
+    const [step, setStep] = useState('first')
 
     const handleClose = () => {
         setOpen(false)
     }
-    
+    const stepHandler = () => {    
+        if(savedBoard) setStep('second')
+        else setStep('final')
+    }
+
+    const continueGame = () => {
+        setBoard(savedBoard)
+        handleClose()
+    }
+    console.log(step)
 
     return (
         <Modal
@@ -42,10 +60,10 @@ const CustomModal = ({setHeight, setWidth}) => {
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
-            <Paper>                
-                { step === "first" && <Instructions setStep = {setStep}/>}
-                { step === "second" && <SecondStep />}
-                { step === "final" && <FinalStep setHeight={setHeight} setWidth={setWidth} closeModal={handleClose} />}
+            <Paper className={classes.paper}>                
+                { step === 'first' && <Instructions stepHandler={stepHandler}/>}
+                { step === 'second' && savedBoard && <SecondStep continueGame={continueGame} setStep = {setStep} closeModal={handleClose}/>}
+                { step === 'final' && <FinalStep setHeight={setHeight} setWidth={setWidth} closeModal={handleClose} />}
             </Paper>
         </Modal>
     )
