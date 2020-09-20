@@ -28,11 +28,15 @@ function App() {
     localStorage.setItem( 'savedBoard', JSON.stringify(board))
   }
   const savedBoard = JSON.parse(localStorage.getItem('savedBoard'))
-  // console.log(savedBoard)
+
+  const endGame = () => {
+    alert('perdites')  
+    localStorage.clear()
+  }
 
   return (
     <>
-      <MineField className="map" height={height} width={width} board={board} setBoard={setBoard} saveGame={saveGame} />
+      <MineField className="map" height={height} width={width} board={board} setBoard={setBoard} saveGame={saveGame} endGame={endGame}/>
       <CustomModal setHeight={setHeight} setWidth={setWidth} setBoard={setBoard} savedBoard={savedBoard} />
     </>
   );

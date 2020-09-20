@@ -12,11 +12,19 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundImage: 'url("hospital2.jpeg")',
+    backgroundSize: '100%',
+    backgroundPosition: 'bottom',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#f8f6f1',
   },
   table: {
     display: 'block',
     borderCollapse: 'separate',
-    borderSpacing: 0,
+    borderSpacing: 2,
+    backgroundColor: '#6ea6c7',
+    borderRadius: 3,
+    padding: 4,
   },
   btn: {
     position: 'relative',
@@ -24,7 +32,7 @@ const useStyles = makeStyles({
     marginTop: 30
   },
 })
-export const MineField = ({height, width, board, setBoard, saveGame}) => {
+export const MineField = ({height, width, board, setBoard, saveGame, endGame}) => {
   
   const classes = useStyles()
 
@@ -55,7 +63,9 @@ export const MineField = ({height, width, board, setBoard, saveGame}) => {
     const isEmpty =board[row][col].value === ""
 
     const isFlag = board[row][col].other === "⚑"
-    console.log(isFlag, board[row][col].other, row, col)
+    
+    const isClicked = board[row][col].clicked
+    console.log(isClicked, board[row][col].other, row, col)
 
     if(!isFlag) {
       if(isMine) mineTouched()   
@@ -63,7 +73,9 @@ export const MineField = ({height, width, board, setBoard, saveGame}) => {
       const newBoard = [...board]
       newBoard[row][col].clicked = true
       setBoard(newBoard)
-    }  
+    }
+
+    saveGame()
   }
 
   const revealNeighbors = (row, col) => {
@@ -93,6 +105,10 @@ export const MineField = ({height, width, board, setBoard, saveGame}) => {
      return item.forEach(subitem => subitem.clicked = true)
     })
     setBoard(newBoard)
+    setTimeout(() => {
+      
+      endGame()
+    }, 100);
   }
 
 
@@ -123,9 +139,6 @@ export const MineField = ({height, width, board, setBoard, saveGame}) => {
           })}
         </tbody>
       </table>
-      <Button className={classes.btn} variant="outlined" color="primary" onClick={saveGame}>
-        Guardar juego
-      </Button>
     </div>
   )
 }

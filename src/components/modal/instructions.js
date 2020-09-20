@@ -20,7 +20,7 @@ const Instructions = ({stepHandler}) => {
     return (
         <div>
             <Typography variant="h3" gutterBottom>
-                Intrucciones
+                Instrucciones
             </Typography>
             <Typography variant="body2" gutterBottom>
                 El juego consiste en despejar todas las casillas que no oculten una mina. Algunas casillas tienen un número, este número indica las minas que se encuentran en las casillas circundantes. Así, si una casilla tiene el número 3, significa que de las ocho casillas que hay alrededor (si no es en una esquina o borde) hay 3 con minas y 5 sin minas. Si se descubre una casilla sin número indica que ninguna de las casillas vecinas tiene mina. 

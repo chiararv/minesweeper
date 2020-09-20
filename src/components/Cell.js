@@ -2,28 +2,36 @@ import React, { useEffect } from 'react'
 // import classNames from "classnames";
 import { makeStyles } from '@material-ui/core/styles';
 import {ReactComponent as VirusSvg} from '../svg/coronavirus.svg'
+import {ReactComponent as MaskSvg} from '../svg/mask.svg'
 
 
 const useStyles = makeStyles({
   td: ({
     clicked,
-    isMine
+    isQuestion
   }) => ({
-      borderBottom: '4px solid grey',
-      borderRight: '4px solid grey',
-      borderTop: '4px solid lightgray',
-      borderLeft: '4px solid lightgray',
-      width: '30px',
-      height: '30px',
-      fontSize: '25px',
+      verticalAlign: 'middle',
+      border: '4px solid transparent',
+      borderRadius: 3,
+      width: '40px',
+      height: '40px',
+      fontSize: '30px',
       textAlign: 'center',
       padding: 0,
-      backgroundColor: clicked ? 'grey' : 'rgb(68, 102, 122)',
-      border: clicked? '4px solid darkgrey' : 'inherit',
-      color: clicked && isMine ? 'rgb(216, 0, 0)' : 'black',
-  })
+      backgroundColor: clicked ? '#bddbe6' : '#255883',
+      // border: clicked? '4px solid darkgrey' : 'inherit',
+      color: isQuestion ? '#bddbe6' : '#255883',
 
-  ,
+  }),
+  content:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  svg: {
+    height: 35,
+    width: 35,
+  }
 })
   // let cellsClass = classNames({
   //   cell: true,
@@ -34,10 +42,12 @@ const useStyles = makeStyles({
 const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
   
   const isMine = value === "☀"
+  const isFlag = other === "⚑"
+  const isQuestion = other === "?"
 
   const classes = useStyles({
     clicked,
-    isMine
+    isQuestion
   })
 
   const handleClick = (userInitiated) => {
@@ -65,6 +75,10 @@ const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
   //     newValue =
   //     break;
   // }
+  const renderContent = () => {
+    if(clicked) return isMine ? <VirusSvg className={classes.svg}/> : value
+    else return isFlag ? <MaskSvg className={classes.svg}/> : other
+  }
   return (
     <td
       onContextMenu={handleContextMenu}
@@ -72,8 +86,9 @@ const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
       className={classes.td}
       onClick={() => handleClick(true)}
     >
-      {clicked && other !== "⚑" ? value : ""}
-      {!clicked && other }
+      <div className={classes.content}>
+        {renderContent()}
+      </div>
     </td>    
   )
 }

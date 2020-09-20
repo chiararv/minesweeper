@@ -75,8 +75,8 @@ const FinalStep = ({closeModal, setWidth, setHeight}) => {
                             <TextField id="standard-basic" label="Ancho"  onChange={(e) => setCustomWidth(e.target.value)}/>
                         </form>
                         <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
-                            <Button onClick={() => play("custom")}>Jugar</Button>
                             <Button onClick={() =>setCustom(false)}>Volver</Button>
+                            <Button onClick={() => play("custom")}>Jugar</Button>
                         </ButtonGroup>
                     </div>
                 )
