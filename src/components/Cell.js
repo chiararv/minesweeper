@@ -39,7 +39,7 @@ const useStyles = makeStyles({
   //   bomb: value === "☀"
   // });
 
-const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
+const Cell = ({other, setFlag, clicked, clickCell, row, column, value, flagCount }) => {
   
   const isMine = value === "☀"
   const isFlag = other === "⚑"
@@ -77,8 +77,13 @@ const Cell = ({other, setFlag, clicked, clickCell, row, column, value }) => {
   // }
   const renderContent = () => {
     if(clicked) return isMine ? <VirusSvg className={classes.svg}/> : value
-    else return isFlag ? <MaskSvg className={classes.svg}/> : other
+    else {
+      if( isFlag ) return <MaskSvg className={classes.svg}/>
+      else return  other
+    }
+    // else return isFlag ? <MaskSvg className={classes.svg}/> : other
   }
+  console.log("flagCount",flagCount)
   return (
     <td
       onContextMenu={handleContextMenu}

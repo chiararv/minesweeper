@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     }
   });
 
-const CustomModal = ({setHeight, setWidth, savedBoard, setBoard}) => {
+const CustomModal = ({setHeight, setWidth, savedBoard, setBoard, setMineCount}) => {
     const classes = useStyles()
     const [open, setOpen] = useState(true)
     const [step, setStep] = useState('first')
@@ -63,7 +63,7 @@ const CustomModal = ({setHeight, setWidth, savedBoard, setBoard}) => {
             <Paper className={classes.paper}>                
                 { step === 'first' && <Instructions stepHandler={stepHandler}/>}
                 { step === 'second' && savedBoard && <SecondStep continueGame={continueGame} setStep = {setStep} closeModal={handleClose}/>}
-                { step === 'final' && <FinalStep setHeight={setHeight} setWidth={setWidth} closeModal={handleClose} />}
+                { step === 'final' && <FinalStep setHeight={setHeight} setWidth={setWidth} setMineCount={setMineCount} closeModal={handleClose} />}
             </Paper>
         </Modal>
     )

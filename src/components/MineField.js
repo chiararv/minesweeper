@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Cell from "./Cell"
 import {Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     marginTop: 30
   },
 })
-export const MineField = ({height, width, board, setBoard, saveGame, endGame}) => {
+export const MineField = ({height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount }) => {
   
   const classes = useStyles()
 
@@ -42,10 +42,17 @@ export const MineField = ({height, width, board, setBoard, saveGame, endGame}) =
       let other
       switch (newBoard[row][col].other) {
         case "":
-          other = "⚑"
+          if(flagCount === 0) {
+            other =  "?"
+          }
+          else{
+            other = "⚑"
+            setFlagCount(flagCount - 1)
+          }
           break;
         case "⚑":
           other = "?"
+          setFlagCount(flagCount + 1)
           break
         case "?":
           other = ""
@@ -57,6 +64,7 @@ export const MineField = ({height, width, board, setBoard, saveGame, endGame}) =
     }
     setBoard(newBoard)
   }
+
 
   const clickCell = (row, col) => {    
     const isMine =board[row][col].value === "☀"
@@ -74,9 +82,12 @@ export const MineField = ({height, width, board, setBoard, saveGame, endGame}) =
       newBoard[row][col].clicked = true
       setBoard(newBoard)
     }
-
+    if(!boardTouched) setBoardTouched(true)
     saveGame()
+    // checkFlagCount()
   }
+
+
 
   const revealNeighbors = (row, col) => {
 
@@ -130,6 +141,7 @@ export const MineField = ({height, width, board, setBoard, saveGame, endGame}) =
                       clicked={subitem.clicked}
                       clickCell = {clickCell}
                       setFlag={setFlag}
+                      flagCount={flagCount}
                       other={subitem.other}
                     />
                   );

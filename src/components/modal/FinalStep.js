@@ -26,11 +26,12 @@ const useStyles = makeStyles({
     },
   });
 
-const FinalStep = ({closeModal, setWidth, setHeight}) => {
+const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
 
     const [custom, setCustom] = useState(false)
     const [customHeight, setCustomHeight] = useState(null)
     const [customWidth, setCustomWidth] = useState(null)
+    const [customMineCount, setCustomMineCount] = useState(null)
 
     const classes = useStyles()
 
@@ -41,20 +42,32 @@ const FinalStep = ({closeModal, setWidth, setHeight}) => {
             case "intermedio":
                 setHeight(16)
                 setWidth(16)
+                setMineCount(40)
                 break;
             case "experto":
                 setHeight(16)
                 setWidth(32)
+                setMineCount(99)
                 break;        
             case "custom":
                 setHeight(customHeight)
                 setWidth(customWidth)
+                setMineCount(customMineCount)
                 break;        
             default:
                 break;
         }
         closeModal()
     }
+
+    // const isNumber = (input, setCustom) => {
+    //     // if(typeof(input) !== 'number')  alert('Por favor ingresa números.')
+    //     // else setCustom(input)
+    //     console.log(input)
+    // isNumber(e.target.value, setCustomHeight)}
+    // }
+
+
     return (
         <div>
             {
@@ -71,17 +84,18 @@ const FinalStep = ({closeModal, setWidth, setHeight}) => {
                 custom && (
                     <div>
                         <form className={classes.root} noValidate autoComplete="off">
-                            <TextField id="standard-basic" label="Altura" onChange={(e) => setCustomHeight(e.target.value)} />
+                            <TextField id="standard-basic" label="Altura" onChange={(e) => setCustomHeight(e.target.value)}/>
                             <TextField id="standard-basic" label="Ancho"  onChange={(e) => setCustomWidth(e.target.value)}/>
+                            <TextField id="standard-basic" label="Bombas"  onChange={(e) => setCustomMineCount(e.target.value)}/>
                         </form>
                         <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
                             <Button onClick={() =>setCustom(false)}>Volver</Button>
-                            <Button onClick={() => play("custom")}>Jugar</Button>
+                            <Button onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
                         </ButtonGroup>
                     </div>
                 )
             }
-        </div>
+        </div> 
     )
 }
 
