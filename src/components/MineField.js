@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 })
 
-const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, userWon, clickedCells, setClickedCells }) => {
+const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells }) => {
   const classes = useStyles()
 
   const setOther = (row, col) => {
@@ -64,11 +64,11 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
       const newBoard = [...board]
       newBoard[row][col].clicked = true
       setClickedCells(clickedCells + 1)
+      console.log(clickedCells)
       setBoard(newBoard)
     }
     if(!boardTouched) setBoardTouched(true)
     saveGame()
-    userWon()
   }
 
   const revealNeighbors = (row, col) => {
@@ -90,10 +90,14 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
 
     arr.forEach(el => { 
      const cell = newBoard[el[0]][el[1]]
-     if (cell.other !== '⚑') cell.clicked = true 
+     if (cell.other !== '⚑') {
+       cell.clicked = true
+       setClickedCells(clickedCells + 1)
+       console.log(clickedCells)
+      } 
     })
-
     setBoard(newBoard)
+
   }
 
   const mineTouched = () => {

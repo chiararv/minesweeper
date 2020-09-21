@@ -26,7 +26,8 @@ const useStyles = makeStyles({
     backgroundColor: '#f8f6f1',
   },
   logo: {
-      height: 60,
+      height: 100,
+      margin: 30
     }
 })
 
@@ -38,7 +39,7 @@ function App() {
   const [mineCount, setMineCount] = useState(10)
   const [boardTouched, setBoardTouched] = useState(false)
   const [board, setBoard] = useState(null)
-  const [gameFinished, setGameFinished] = useState(false)
+  const [resetClock, setResetClock] = useState(false)
   const [flagCount, setFlagCount] = useState(mineCount) 
   const [seconds, setSeconds] = useState(0)
   const [clickedCells, setClickedCells] = useState(0)
@@ -48,6 +49,9 @@ function App() {
   const initGame = () => {
     setBoard(initBoard(height, width, mineCount))
     setFlagCount(mineCount)
+    setSeconds(0)
+    setResetClock(true)
+    console.log('init')
   }
 
   useEffect(() => {
@@ -65,24 +69,33 @@ function App() {
 
   useEffect(() => {
     let interval
-    if (boardTouched) interval = setInterval( incrementSeconds, 1000)
-    if (gameFinished) clearInterval(interval)
 
+    if (boardTouched) {
+      interval = setInterval( incrementSeconds, 1000)
+      setResetClock(false)
+    }
+    if (resetClock) {
+      clearInterval(interval)
+    }     
     return () => clearInterval(interval);
-  }, [boardTouched, gameFinished])
+  }, [boardTouched, resetClock])
 
 
+console.log({resetClock})
   const endGame = () => {
     localStorage.clear()
-    setGameFinished(true)
+    setResetClock(true)
   }
   const userWon = () => {
     if(nonBombCells === clickedCells && flagCount === 0) {
-      setGameFinished(true)
+      setResetClock(true)
       console.log('yayy')
     }
     console.log({clickedCells, nonBombCells, flagCount, height, width, mineCount})
   }
+  useEffect(() => {
+    userWon()
+  }, [clickedCells, flagCount])
 
   return (
     <div className={classes.container}>
