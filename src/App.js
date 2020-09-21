@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import { MineField } from './components/MineField'
+import MineField from './components/MineField'
 import CustomModal from './components/modal/CustomModal'
 import {
-  nestedArray,
-  populateNestedArray,
-  valsAdjacentCounts
+  initBoard
 } from "./helpers/helper"
-import Timer from './Timer'
 import BoardInfo from './components/BoardInfo'
 import {ReactComponent as Logo} from './svg/covid-sweeper-logo.svg'
 import { makeStyles } from '@material-ui/core'
@@ -43,58 +40,56 @@ function App() {
   const [board, setBoard] = useState(null)
   const [gameFinished, setGameFinished] = useState(false)
   const [flagCount, setFlagCount] = useState(mineCount) 
+  const [seconds, setSeconds] = useState(0)
+  const [clickedCells, setClickedCells] = useState(0)
+
+  const nonBombCells = height * width - mineCount
+
+  const initGame = () => {
+    setBoard(initBoard(height, width, mineCount))
+    setFlagCount(mineCount)
+  }
 
   useEffect(() => {
-    const initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(height, width), "☀", mineCount), "☀")
-    setBoard(initBoard)
-  }, [height, width])
+    initGame()
+  }, [height, width, mineCount])
 
 
   const saveGame = () => {
     localStorage.setItem( 'savedBoard', JSON.stringify(board))
   }
+
   const savedBoard = JSON.parse(localStorage.getItem('savedBoard'))
 
+  const incrementSeconds = () => setSeconds(seconds => seconds + 1)      
 
-
-  const [seconds, setSeconds] = useState(0)
-
-  const incrementSeconds = () => {
-      setSeconds(seconds => seconds + 1)      
-  }
-
-
-
-  let interval
   useEffect(() => {
-    if(boardTouched){
-       interval = setInterval( incrementSeconds, 1000)
-    };
-    if(gameFinished){
-      clearInterval(interval);
-    };
-    return () => clearInterval(interval);
-  }, [boardTouched, gameFinished]);
+    let interval
+    if (boardTouched) interval = setInterval( incrementSeconds, 1000)
+    if (gameFinished) clearInterval(interval)
 
- 
+    return () => clearInterval(interval);
+  }, [boardTouched, gameFinished])
+
 
   const endGame = () => {
-    alert('perdites')  
     localStorage.clear()
     setGameFinished(true)
   }
-
-  const resetGame = () => {
-    const initBoard =  valsAdjacentCounts(populateNestedArray(nestedArray(height, width), "☀", mineCount), "☀")
-    setBoard(initBoard)
-
+  const userWon = () => {
+    if(nonBombCells === clickedCells && flagCount === 0) {
+      setGameFinished(true)
+      console.log('yayy')
+    }
+    console.log({clickedCells, nonBombCells, flagCount, height, width, mineCount})
   }
+
   return (
     <div className={classes.container}>
       <Logo className={classes.logo}/>
       <BoardInfo
         seconds={seconds}
-        resetGame={resetGame}
+        resetGame={initGame}
         mineCount={mineCount}
         flagCount={flagCount}
       />
@@ -110,6 +105,9 @@ function App() {
         flagCount={flagCount}
         setFlagCount={setFlagCount}
         endGame={endGame}
+        userWon={userWon}
+        clickedCells={clickedCells}
+        setClickedCells={setClickedCells}
         />
       <CustomModal 
         setHeight={setHeight}
@@ -119,7 +117,7 @@ function App() {
         savedBoard={savedBoard}
       />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

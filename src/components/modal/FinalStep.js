@@ -1,103 +1,127 @@
 import React, { useState } from 'react'
 import {TextField, ButtonGroup, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import {ReactComponent as Logo} from '../../svg/coronavirus.svg'
 
 const useStyles = makeStyles({
-    root: {
-        minWidth: 400,
-        maxHeight: '80%',
-        margin: '24px auto',
-        width: '80%',
-        padding: 40,
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems:'center',
-        justifyContent:'center',
-        position: 'relative',
-        '&:focus': {
-          outline: 'none'
-        }
-    },
-    btnGroup: {
-        display: 'flex',
-        alignItems:'center',
-        justifyContent:'center',
-    },
-  });
+  root: {
+    minWidth: 400,
+    maxHeight: '80%',
+    margin: '24px auto',
+    width: '80%',
+    padding: 40,
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems:'center',
+    justifyContent:'center',
+    position: 'relative',
+    '&:focus': {
+      outline: 'none'
+    }
+  },
+  btnGroup: {
+    display: 'flex',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+
+  btnContainer:{
+      display: 'flex',
+      flexDirection: 'column',
+      width: 300
+  },
+  btn:{
+      margin: 15,
+      textAlign: 'center'
+  },
+  btnLabel:{
+    fontSize: 20,
+  },
+  logo1:{
+      filter: 'hue-rotate(100deg)',
+      height: 35,
+      width: 35,
+  },
+  logo2:{
+      filter: 'hue-rotate(200deg)',
+      height: 35,
+      width: 35,
+  },
+  logo3:{
+      filter: 'hue-rotate(270deg)',
+      height: 35,
+      width: 35,
+  },
+  logo4:{
+      height: 35,
+      width: 35,
+  },
+});
 
 const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
 
-    const [custom, setCustom] = useState(false)
-    const [customHeight, setCustomHeight] = useState(null)
-    const [customWidth, setCustomWidth] = useState(null)
-    const [customMineCount, setCustomMineCount] = useState(null)
+  const [custom, setCustom] = useState(false)
+  const [customHeight, setCustomHeight] = useState(null)
+  const [customWidth, setCustomWidth] = useState(null)
+  const [customMineCount, setCustomMineCount] = useState(null)
 
-    const classes = useStyles()
+  const classes = useStyles()
 
-    const play = (level) => {
-        switch (level) {
-            case "principiante":
-                break;
-            case "intermedio":
-                setHeight(16)
-                setWidth(16)
-                setMineCount(40)
-                break;
-            case "experto":
-                setHeight(16)
-                setWidth(32)
-                setMineCount(99)
-                break;        
-            case "custom":
-                setHeight(customHeight)
-                setWidth(customWidth)
-                setMineCount(customMineCount)
-                break;        
-            default:
-                break;
-        }
-        closeModal()
+  const play = (level) => {
+    switch (level) {
+      case 'principiante':
+        break
+      case 'intermedio':
+        setHeight(16)
+        setWidth(16)
+        setMineCount(40)
+        break
+      case 'experto':
+        setHeight(16)
+        setWidth(32)
+        setMineCount(99)
+        break      
+      case 'custom':
+        setHeight(customHeight)
+        setWidth(customWidth)
+        setMineCount(customMineCount)
+        break     
+      default:
+        break
     }
+    closeModal()
+  }
 
-    // const isNumber = (input, setCustom) => {
-    //     // if(typeof(input) !== 'number')  alert('Por favor ingresa números.')
-    //     // else setCustom(input)
-    //     console.log(input)
-    // isNumber(e.target.value, setCustomHeight)}
-    // }
-
-
-    return (
-        <div>
-            {
-                !custom && (
-                    <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button onClick={() => play("principiante")}>Principiante</Button>
-                        <Button onClick={() => play("intermedio")}>Intermedio</Button>
-                        <Button onClick={() => play("experto")}>Experto</Button>
-                        <Button onClick={() =>setCustom(true)}>Personalizado</Button>
-                    </ButtonGroup>
-                )
-            }
-            {
-                custom && (
-                    <div>
-                        <form className={classes.root} noValidate autoComplete="off">
-                            <TextField id="standard-basic" label="Altura" onChange={(e) => setCustomHeight(e.target.value)}/>
-                            <TextField id="standard-basic" label="Ancho"  onChange={(e) => setCustomWidth(e.target.value)}/>
-                            <TextField id="standard-basic" label="Bombas"  onChange={(e) => setCustomMineCount(e.target.value)}/>
-                        </form>
-                        <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
-                            <Button onClick={() =>setCustom(false)}>Volver</Button>
-                            <Button onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
-                        </ButtonGroup>
-                    </div>
-                )
-            }
-        </div> 
-    )
+  return (
+    <div>
+      {
+        !custom && (
+          <div className={classes.btnContainer}>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined"  onClick={() => play("principiante")} startIcon={<Logo className={classes.logo1}/>}>Principiante</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() => play("intermedio")} startIcon={<Logo className={classes.logo2}/>}>Intermedio</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() => play("experto")} startIcon={<Logo className={classes.logo3}/>}>Experto</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() =>setCustom(true)} startIcon={<Logo className={classes.logo4}/>}>Personalizado</Button>
+          </div>
+        )
+      }
+      {
+        custom && (
+          <div>
+            <form className={classes.root} noValidate autoComplete="off">
+              <TextField id="standard-basic" label="Altura" onChange={(e) => setCustomHeight(e.target.value)}/>
+              <TextField id="standard-basic" label="Ancho"  onChange={(e) => setCustomWidth(e.target.value)}/>
+              <TextField id="standard-basic" label="Bombas"  onChange={(e) => setCustomMineCount(e.target.value)}/>
+            </form>
+            <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
+              <Button onClick={() =>setCustom(false)}>Volver</Button>
+              <Button onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
+            </ButtonGroup>
+          </div>
+        )
+      }
+    </div> 
+  )
 }
-
 
 export default FinalStep

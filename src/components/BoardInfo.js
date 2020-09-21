@@ -1,7 +1,7 @@
 import React from 'react'
 import Timer from '../Timer'
 import { Button, makeStyles } from '@material-ui/core'
-import {ReactComponent as MaskSvg} from '../svg/mask.svg'
+import { ReactComponent as MaskSvg } from '../svg/mask.svg'
 
 const useStyles = makeStyles({
     svg: {

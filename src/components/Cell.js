@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-// import classNames from "classnames";
 import { makeStyles } from '@material-ui/core/styles';
-import {ReactComponent as VirusSvg} from '../svg/coronavirus.svg'
-import {ReactComponent as MaskSvg} from '../svg/mask.svg'
-
+import { ReactComponent as VirusSvg } from '../svg/coronavirus.svg'
+import { ReactComponent as MaskSvg } from '../svg/mask.svg'
 
 const useStyles = makeStyles({
   td: ({
@@ -19,9 +17,7 @@ const useStyles = makeStyles({
       textAlign: 'center',
       padding: 0,
       backgroundColor: clicked ? '#bddbe6' : '#255883',
-      // border: clicked? '4px solid darkgrey' : 'inherit',
       color: isQuestion ? '#bddbe6' : '#255883',
-
   }),
   content:{
     display: 'flex',
@@ -33,17 +29,19 @@ const useStyles = makeStyles({
     width: 35,
   }
 })
-  // let cellsClass = classNames({
-  //   cell: true,
-  //   clicked,
-  //   bomb: value === "☀"
-  // });
 
-const Cell = ({other, setFlag, clicked, clickCell, row, column, value, flagCount }) => {
-  
-  const isMine = value === "☀"
-  const isFlag = other === "⚑"
-  const isQuestion = other === "?"
+const Cell = ({
+  other,
+  setOther,
+  clicked,
+  clickCell,
+  row,
+  column,
+  value
+}) => {
+  const isMine = value === '☀'
+  const isFlag = other === '⚑'
+  const isQuestion = other === '?'
 
   const classes = useStyles({
     clicked,
@@ -56,34 +54,20 @@ const Cell = ({other, setFlag, clicked, clickCell, row, column, value, flagCount
   }
 
   useEffect(() => {
-    if(clicked) handleClick(false)
+    if (clicked) handleClick(false)
   }, [clicked])
 
   const handleContextMenu = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    setFlag(row, column)
+    setOther(row, column)
   }
 
-  // let newValue
-  // switch (value) {
-  //   case "☀":
-  //     newValue = VirusSvg
-  //     break;
-  
-  //   default:
-  //     newValue =
-  //     break;
-  // }
   const renderContent = () => {
-    if(clicked) return isMine ? <VirusSvg className={classes.svg}/> : value
-    else {
-      if( isFlag ) return <MaskSvg className={classes.svg}/>
-      else return  other
-    }
-    // else return isFlag ? <MaskSvg className={classes.svg}/> : other
+    if (clicked) return isMine ? <VirusSvg className={classes.svg}/> : value
+    else return isFlag ? <MaskSvg className={classes.svg}/> : other
   }
-  console.log("flagCount",flagCount)
+
   return (
     <td
       onContextMenu={handleContextMenu}
@@ -99,6 +83,3 @@ const Cell = ({other, setFlag, clicked, clickCell, row, column, value, flagCount
 }
 
 export default Cell
-
-
-
