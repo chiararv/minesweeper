@@ -9,11 +9,32 @@ import {
 } from "./helpers/helper"
 import Timer from './Timer'
 import BoardInfo from './components/BoardInfo'
+import {ReactComponent as Logo} from './svg/covid-sweeper-logo.svg'
+import { makeStyles } from '@material-ui/core'
 
 
 
+const useStyles = makeStyles({
+  container: {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: 'url("hospital2.jpeg")',
+    backgroundSize: '100%',
+    backgroundPosition: 'bottom',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#f8f6f1',
+  },
+  logo: {
+      height: 60,
+    }
+})
 
 function App() {
+  const classes = useStyles()
 
   const [height, setHeight] = useState(8)
   const [width, setWidth] = useState(8)
@@ -69,7 +90,8 @@ function App() {
 
   }
   return (
-    <>
+    <div className={classes.container}>
+      <Logo className={classes.logo}/>
       <BoardInfo
         seconds={seconds}
         resetGame={resetGame}
@@ -96,7 +118,7 @@ function App() {
         setBoard={setBoard}
         savedBoard={savedBoard}
       />
-    </>
+    </div>
   );
 }
 

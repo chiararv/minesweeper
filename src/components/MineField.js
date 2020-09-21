@@ -5,18 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles({
-  container: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
+  tableConatiner : {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url("hospital2.jpeg")',
-    backgroundSize: '100%',
-    backgroundPosition: 'bottom',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: '#f8f6f1',
   },
   table: {
     display: 'block',
@@ -125,7 +117,7 @@ export const MineField = ({height, width, board, setBoard, saveGame, endGame, se
 
 
   return (
-    <div className={classes.container}>
+    <div className={classes.tableContainer}>
       <table className={classes.table}>
         <tbody>
           {board && board.map((item, row) => {
