@@ -30,8 +30,8 @@ const Instructions = ({stepHandler}) => {
   return (
     <div>
       <Typography variant="body2" gutterBottom className={classes.instructions}>
-        El juego consiste en despejar todas las casillas que no oculten coronavirus. 
-        Se puede poner una mascarilla en las casillas para indicar la posibilad de un coronavirus.
+        Para ganar deberás despejar todas las casillas que no oculten coronavirus y marcar las que lo tienen con una mascarilla. 
+        Se puede poner un signo de pregunta en las casillas para indicar la posibilad de un coronavirus.
         Las casillas sin número se descubren automáticamente.               
       </Typography>
       <div>
