@@ -31,7 +31,7 @@ const Instructions = ({stepHandler}) => {
     <div>
       <Typography variant="body2" gutterBottom className={classes.instructions}>
         Para ganar deberás despejar todas las casillas que no oculten coronavirus y marcar las que lo tienen con una mascarilla. 
-        Se puede poner un signo de pregunta en las casillas para indicar la posibilad de un coronavirus.
+        Se puede poner un signo de pregunta en las casillas para indicar la posibilidad de un coronavirus.
         Las casillas sin número se descubren automáticamente.               
       </Typography>
       <div>
