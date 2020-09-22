@@ -3,7 +3,7 @@ import {TextField, ButtonGroup, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import {ReactComponent as Virus} from '../../../svg/coronavirus.svg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( theme => ({
   root: {
     minWidth: 400,
     maxHeight: '80%',
@@ -36,6 +36,10 @@ const useStyles = makeStyles({
       margin: '15px 0',
       textAlign: 'center',
       fontSize: 20,
+      [theme.breakpoints.down('sm')]: {
+        fontSize: 14,
+        margin: 10
+      }
   },
   btnLabel:{
     display: 'flex',
@@ -60,7 +64,7 @@ const useStyles = makeStyles({
       height: 35,
       width: 35,
   },
-});
+}))
 
 const FinalStep = ({closeModal, setWidth, setHeight, setMineCount, setGameStatus}) => {
 

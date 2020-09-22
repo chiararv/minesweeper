@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {ReactComponent as Logo} from '../../../svg/covid-sweeper-logo.svg'
 import FinalStep from '../instructionsModal/FinalStep';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( theme => ({
   root: {
     minWidth: 400,
     maxHeight: '80%',
@@ -17,7 +17,10 @@ const useStyles = makeStyles({
     alignItems:'center',
     justifyContent:'center',
     position: 'relative',
-    
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 200,
+      minWidth: 150
+    }
   },
   paper: {
     width: 500,
@@ -28,10 +31,18 @@ const useStyles = makeStyles({
     justifyContent: 'space-around',
     padding: 30,
     textAlign: 'justify',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: 250,
+      height: '100%',
+      justifyContent: 'center'
+    }
   },
   logo: {
     marginBottom: 25,
+    [theme.breakpoints.down('sm')]: {
+      height: 60
+    }
   },
   container: {
     margin: 'auto',
@@ -41,9 +52,9 @@ const useStyles = makeStyles({
   },
   content:{
     fontSize: 26,
-    margin: 25
+    margin: 25,
   }
-});
+}))
 
 const GameStatus = ({gameStatus, setGameStatus, setMineCount, setHeight, setWidth}) => {
 

@@ -6,7 +6,7 @@ import FinalStep from './FinalStep'
 import SecondStep from './SecondStep'
 import {ReactComponent as Logo} from '../../../svg/covid-sweeper-logo.svg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     minWidth: 400,
     maxHeight: '80%',
@@ -19,7 +19,10 @@ const useStyles = makeStyles({
     alignItems:'center',
     justifyContent:'center',
     position: 'relative',
-    
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 200,
+      minWidth: 150
+    }
   },
   paper: {
     width: 500,
@@ -29,12 +32,20 @@ const useStyles = makeStyles({
     alignItems: 'center',
     padding: 30,
     textAlign: 'justify',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: 250,
+      height: '100%',
+      justifyContent: 'center'
+    }
   },
   logo: {
     marginBottom: 25,
+    [theme.breakpoints.down('sm')]: {
+      height: 60
+    }
   }
-});
+}))
 
 const CustomModal = ({ setHeight, setWidth, savedBoard, setBoard, setMineCount, setGameStatus }) => {
   const classes = useStyles()

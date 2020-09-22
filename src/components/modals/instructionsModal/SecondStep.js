@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( theme => ({
   root: {
     minWidth: 400,
     maxHeight: '80%',
@@ -32,9 +32,13 @@ const useStyles = makeStyles({
   btn: {
     margin: 15,
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+      margin: 10
+    }
   }
-});
+}))
 
 const SecondStep = ({setStep, continueGame}) => {
   const classes = useStyles()
