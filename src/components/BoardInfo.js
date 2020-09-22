@@ -5,9 +5,10 @@ import { ReactComponent as MaskSvg } from '../svg/mask.svg'
 import { ReactComponent as RefreshSvg } from '../svg/refresh.svg'
 
 const useStyles = makeStyles({
-    boardInfoContainer:{
-        width: 300,
+    boardInfoContainer:({ height, width }) => ({
+        width: width <= 12 && height <= 12 ? 300 : 100,
         display: 'flex',
+        flexDirection: width <= 12 && height <= 12 ? 'row' : 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 15,
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
         border: '2px solid rgb(37, 88, 131)',
         borderRadius: 4,
         padding: 5
-    },
+    }),
     flagCounter:{
         color: '#bddbe6',
         display: 'flex',
@@ -43,8 +44,8 @@ const useStyles = makeStyles({
         fontSize: 15
     }
 })
-const BoardInfo = ({seconds, resetGame, mineCount, flagCount}) => {
-    const classes = useStyles()
+const BoardInfo = ({seconds, resetGame, flagCount, height, width}) => {
+    const classes = useStyles({height, width})
     return (
         <div className={classes.boardInfoContainer}>
             <Timer seconds={seconds}/>

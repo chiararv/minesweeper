@@ -12,11 +12,11 @@ import { makeStyles } from '@material-ui/core'
 
 
 const useStyles = makeStyles({
-  container: {
-    width: '100vw',
-    height: '100vh',
+  container: ({ height, width }) => ({
+    padding: 24,
+    minHeight: '100vh',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: width <= 12 && height <= 12 ? 'column' : 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundImage: 'url("hospital2.jpeg")',
@@ -24,25 +24,33 @@ const useStyles = makeStyles({
     backgroundPosition: 'bottom',
     backgroundRepeat: 'no-repeat',
     backgroundColor: '#f8f6f1',
-  },
-  logo: {
-      height: 100,
-      margin: 30
-    }
+    overflowX: 'hidden'
+  }),
+  logo: ({ height, width }) => ({
+      height: width <= 12 && height <= 12 ? 100 : 70,
+      margin: width <= 12 && height <= 12 ? 30 : 15
+    }),
+  info: ({ height, width }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+    })
 })
 
 function App() {
-  const classes = useStyles()
-
-  const [height, setHeight] = useState(8)
-  const [width, setWidth] = useState(8)
-  const [mineCount, setMineCount] = useState(10)
+  
+  const [height, setHeight] = useState(0)
+  const [width, setWidth] = useState(0)
+  const [mineCount, setMineCount] = useState(0)
   const [boardTouched, setBoardTouched] = useState(false)
   const [board, setBoard] = useState(null)
   const [resetClock, setResetClock] = useState(false)
   const [flagCount, setFlagCount] = useState(mineCount) 
   const [seconds, setSeconds] = useState(0)
   const [clickedCells, setClickedCells] = useState(0)
+  
+  const classes = useStyles({ height, width })
 
   const nonBombCells = height * width - mineCount
 
@@ -55,7 +63,7 @@ function App() {
   }
 
   useEffect(() => {
-    initGame()
+    if (height) initGame()
   }, [height, width, mineCount])
 
 
@@ -80,32 +88,37 @@ function App() {
     return () => clearInterval(interval);
   }, [boardTouched, resetClock])
 
-
-console.log({resetClock})
+  
   const endGame = () => {
     localStorage.clear()
     setResetClock(true)
   }
-  const userWon = () => {
-    if(nonBombCells === clickedCells && flagCount === 0) {
-      setResetClock(true)
-      console.log('yayy')
-    }
-    console.log({clickedCells, nonBombCells, flagCount, height, width, mineCount})
-  }
-  useEffect(() => {
-    userWon()
-  }, [clickedCells, flagCount])
+  // const userWon = () => {
+  //   if(nonBombCells === clickedCells && flagCount === 0) {
+  //     setResetClock(true)
+  //     console.log('yayy')
+  //   }
+  //   console.log({clickedCells, nonBombCells, flagCount, height, width, mineCount})
+  // }
+  // useEffect(() => {
+  //   userWon()
+  // }, [clickedCells, flagCount])
+
+  
 
   return (
     <div className={classes.container}>
-      <Logo className={classes.logo}/>
-      <BoardInfo
-        seconds={seconds}
-        resetGame={initGame}
-        mineCount={mineCount}
-        flagCount={flagCount}
-      />
+      <div className={classes.info}>
+        <Logo className={classes.logo}/>
+        <BoardInfo
+          seconds={seconds}
+          resetGame={initGame}
+          mineCount={mineCount}
+          flagCount={flagCount}
+          height={height}
+          width={width}
+        />
+      </div>
       <MineField 
         className="map"
         height={height}
@@ -118,9 +131,10 @@ console.log({resetClock})
         flagCount={flagCount}
         setFlagCount={setFlagCount}
         endGame={endGame}
-        userWon={userWon}
         clickedCells={clickedCells}
         setClickedCells={setClickedCells}
+        safeCells={nonBombCells}
+        mineCount={mineCount}
         />
       <CustomModal 
         setHeight={setHeight}

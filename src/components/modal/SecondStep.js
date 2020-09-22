@@ -22,6 +22,17 @@ const useStyles = makeStyles({
   paper: {
     width: 500,
     height: 500
+  },
+  btnContainer: {
+    height: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  btn: {
+    margin: 15,
+    textAlign: 'center',
+    fontSize: 20
   }
 });
 
@@ -29,10 +40,10 @@ const SecondStep = ({setStep, continueGame}) => {
   const classes = useStyles()
 
   return (
-    <ButtonGroup color="primary" aria-label="outlined primary button group">
-      <Button onClick={() => setStep('final')}>Nueva partida</Button>
-      <Button onClick={continueGame}>Reanudar partida</Button>
-    </ButtonGroup>
+    <div className={classes.btnContainer}>
+      <Button className={classes.btn} variant="outlined" color= "primary" onClick={() => setStep('final')}>Nueva partida</Button>
+      <Button className={classes.btn} variant="outlined" color= "primary" onClick={continueGame}>Reanudar partida</Button>
+    </div>
   )
 }
 

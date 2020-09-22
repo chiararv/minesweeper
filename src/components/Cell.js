@@ -6,31 +6,35 @@ import { ReactComponent as MaskSvg } from '../svg/mask.svg'
 const useStyles = makeStyles({
   td: ({
     clicked,
-    isQuestion
+    isQuestion,
+    height,
+    width
   }) => ({
       verticalAlign: 'middle',
-      border: '4px solid transparent',
+      overflow: 'hidden',
       borderRadius: 3,
-      width: '40px',
-      height: '40px',
-      fontSize: '30px',
+      width: width <= 20 ? '40px': '20px',
+      height: width <= 20 ? '40px': '20px',
+      fontSize: '24px',
       textAlign: 'center',
       padding: 0,
-      backgroundColor: clicked ? '#bddbe6' : '#255883',
       color: isQuestion ? '#bddbe6' : '#255883',
   }),
-  content:{
+  content:({ width }) => ({
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  svg: {
-    height: 35,
-    width: 35,
-  }
+    alignItems: 'center',
+    fontSize: width <= 20 ? 22 : 17,
+  }),
+  svg: ({ width }) => ({
+    height: width <= 20 ? 30 : 17,
+    width: width <= 20 ? 30 : 17,
+  })
 })
 
 const Cell = ({
+  height, 
+  width,
   other,
   setOther,
   clicked,
@@ -45,7 +49,9 @@ const Cell = ({
 
   const classes = useStyles({
     clicked,
-    isQuestion
+    isQuestion,
+    height,
+    width
   })
 
   const handleClick = (userInitiated) => {
@@ -74,8 +80,9 @@ const Cell = ({
       id={`${row}_${column}`}
       className={classes.td}
       onClick={() => handleClick(true)}
+      style={{backgroundColor: clicked ? '#bddbe6' : '#255883'}}
     >
-      <div className={classes.content}>
+      <div className={classes.content} >
         {renderContent()}
       </div>
     </td>    

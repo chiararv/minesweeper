@@ -24,14 +24,19 @@ const floorRand = (scale) => {
 const fillNestedArray = (nestedArray, val, count) => {
   let rows = nestedArray.length
   let cols = nestedArray[0].length
+
   while (count) {
     let row = floorRand(rows)
     let col = floorRand(cols)
-    nestedArray[row][col].value = val
-    count--
+    if(nestedArray[row][col].value !== "☀"){
+      nestedArray[row][col].value = val
+      count -= 1
+    }
+    console.log('acc', nestedArray[row][col])
   }
   return nestedArray
 }
+
 
 const calcAdjacentBombs = (nestedArray, val) => {
   for (let i = 0; i < nestedArray.length; i++) {

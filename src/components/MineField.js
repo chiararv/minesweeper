@@ -19,7 +19,9 @@ const useStyles = makeStyles({
   },
 })
 
-const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells }) => {
+
+
+const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells, mineCount, safeCells }) => {
   const classes = useStyles()
 
   const setOther = (row, col) => {
@@ -50,7 +52,9 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
       newBoard[row][col].other = other
     }
     setBoard(newBoard)
+    checkGameStatus(board, safeCells, mineCount)
   }
+
 
 
   const clickCell = (row, col) => {    
@@ -69,9 +73,28 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
     }
     if(!boardTouched) setBoardTouched(true)
     saveGame()
+    checkGameStatus(board, safeCells, mineCount)
   }
 
-  const revealNeighbors = (row, col) => {
+  const checkGameStatus = (board, safeCells, mineCount) => {
+    let clickedCells = 0
+    let flagedMines = 0
+    
+    board.forEach(item => {
+      return item.forEach(subitem => {
+        if(subitem.value !== '☀' && subitem.clicked ) clickedCells += 1
+        else if (subitem.value === '☀' && subitem.other === '⚑') flagedMines += 1       
+      })
+     })
+  
+     if(clickedCells === safeCells && flagedMines == mineCount) {
+       alert('ganaste')
+     }
+    
+     console.log({clickedCells, safeCells, flagedMines, mineCount})
+  }
+
+const revealNeighbors = (row, col) => {
     const arr = []
     for(let i=-1; i<=1; i++){
       for(let j=-1; j<=1; j++){
@@ -130,6 +153,8 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
                       setOther={setOther}
                       flagCount={flagCount}
                       other={subitem.other}
+                      height={height}
+                      width={width}
                     />
                   )
                 })}

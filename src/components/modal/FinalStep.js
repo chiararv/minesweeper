@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {TextField, ButtonGroup, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import {ReactComponent as Logo} from '../../svg/coronavirus.svg'
+import {ReactComponent as Virus} from '../../svg/coronavirus.svg'
 
 const useStyles = makeStyles({
   root: {
@@ -23,37 +23,40 @@ const useStyles = makeStyles({
   btnGroup: {
     display: 'flex',
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
   },
 
   btnContainer:{
       display: 'flex',
       flexDirection: 'column',
-      width: 300
+      width: 300,
+      marginTop: 20
   },
   btn:{
-      margin: 15,
-      textAlign: 'center'
+      margin: '15px 0',
+      textAlign: 'center',
+      fontSize: 20,
   },
   btnLabel:{
-    fontSize: 20,
+    display: 'flex',
+    justifyContent: 'flex-start'
   },
-  logo1:{
+  virus1:{
       filter: 'hue-rotate(100deg)',
       height: 35,
       width: 35,
   },
-  logo2:{
+  virus2:{
       filter: 'hue-rotate(200deg)',
       height: 35,
       width: 35,
   },
-  logo3:{
+  virus3:{
       filter: 'hue-rotate(270deg)',
       height: 35,
       width: 35,
   },
-  logo4:{
+  virus4:{
       height: 35,
       width: 35,
   },
@@ -71,6 +74,9 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
   const play = (level) => {
     switch (level) {
       case 'principiante':
+        setHeight(8)
+        setWidth(8)
+        setMineCount(10)
         break
       case 'intermedio':
         setHeight(16)
@@ -98,10 +104,10 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
       {
         !custom && (
           <div className={classes.btnContainer}>
-            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined"  onClick={() => play("principiante")} startIcon={<Logo className={classes.logo1}/>}>Principiante</Button>
-            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() => play("intermedio")} startIcon={<Logo className={classes.logo2}/>}>Intermedio</Button>
-            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() => play("experto")} startIcon={<Logo className={classes.logo3}/>}>Experto</Button>
-            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" onClick={() =>setCustom(true)} startIcon={<Logo className={classes.logo4}/>}>Personalizado</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" color= "primary" onClick={() => play("principiante")} startIcon={<Virus className={classes.virus1}/>}>Principiante</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" color= "primary" onClick={() => play("intermedio")} startIcon={<Virus className={classes.virus2}/>}>Intermedio</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" color= "primary" onClick={() => play("experto")} startIcon={<Virus className={classes.virus3}/>}>Experto</Button>
+            <Button classes={{ root: classes.btn, label: classes.btnLabel }} variant="outlined" color= "primary" onClick={() =>setCustom(true)} startIcon={<Virus className={classes.virus4}/>}>Personalizado</Button>
           </div>
         )
       }
@@ -114,8 +120,8 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
               <TextField id="standard-basic" label="Bombas"  onChange={(e) => setCustomMineCount(e.target.value)}/>
             </form>
             <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
-              <Button onClick={() =>setCustom(false)}>Volver</Button>
-              <Button onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
+              <Button className={classes.btn} onClick={() =>setCustom(false)}>Volver</Button>
+              <Button className={classes.btn} onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
             </ButtonGroup>
           </div>
         )

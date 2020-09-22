@@ -1,15 +1,27 @@
 import React from 'react'
 import {Button, List, ListItem, ListItemText, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
+import { ReactComponent as VirusSvg } from '../../svg/coronavirus.svg'
+import { ReactComponent as MaskSvg } from '../../svg/mask.svg'
 
 const useStyles = makeStyles({
   btn: {
     position: 'relative',
     left: '211px',
-    marginTop: 30
+    marginTop: 30,
+    fontSize: 20
   },
   list: {
     padding: 0,
+  },
+  instructions: {
+    lineHeight: '37px',
+    textAlign: 'justify',
+    fontSize: '17px'
+  },
+  svg:{
+    height: 20,
+    width: 20
   }
 })
 
@@ -19,15 +31,10 @@ const Instructions = ({stepHandler}) => {
 
   return (
     <div>
-      <Typography variant="h3" gutterBottom>
-        Instrucciones
-      </Typography>
-      <Typography variant="body2" gutterBottom>
-        El juego consiste en despejar todas las casillas que no oculten una mina. Algunas casillas tienen un número, este número indica las minas que se encuentran en las casillas circundantes. Así, si una casilla tiene el número 3, significa que de las ocho casillas que hay alrededor (si no es en una esquina o borde) hay 3 con minas y 5 sin minas. Si se descubre una casilla sin número indica que ninguna de las casillas vecinas tiene mina. 
-      </Typography>
-      <Typography variant="body2" gutterBottom>
-        Las casillas sin número se descubren automáticamente.Si se descubre una casilla con una mina se pierde la partida.                
-        Se puede poner una bandera en las casillas para indicar la posibilad de una mina.
+      <Typography variant="body2" gutterBottom className={classes.instructions}>
+        El juego consiste en despejar todas las casillas que no oculten coronavirus. 
+        Se puede poner una mascarilla en las casillas para indicar la posibilad de un coronavirus.
+        Las casillas sin número se descubren automáticamente.               
       </Typography>
       <div>
         <List>
@@ -40,7 +47,7 @@ const Instructions = ({stepHandler}) => {
         <ListItem className={classes.list}>
           <ListItemText
             primary="Click derecho"
-            secondary='Alterna entre una bandera y un signo de pregunta'
+            secondary={`Alterna entre una mascarilla y un signo de pregunta`}
           />
           </ListItem>
         </List>
