@@ -1,15 +1,13 @@
 import React from 'react'
 import {Button, List, ListItem, ListItemText, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import { ReactComponent as VirusSvg } from '../../svg/coronavirus.svg'
-import { ReactComponent as MaskSvg } from '../../svg/mask.svg'
 
 const useStyles = makeStyles({
   btn: {
     position: 'relative',
     left: '211px',
     marginTop: 30,
-    fontSize: 20
+    fontSize: 17
   },
   list: {
     padding: 0,

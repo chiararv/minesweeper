@@ -1,6 +1,5 @@
 import React from 'react'
 import Cell from './Cell'
-import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -18,8 +17,6 @@ const useStyles = makeStyles({
     marginTop: 30
   },
 })
-
-
 
 const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells, mineCount, safeCells }) => {
   const classes = useStyles()
@@ -52,10 +49,8 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
       newBoard[row][col].other = other
     }
     setBoard(newBoard)
-    checkGameStatus(board, safeCells, mineCount)
+    if (flagCount === 0) checkGameStatus(board, safeCells, mineCount)
   }
-
-
 
   const clickCell = (row, col) => {    
     const isMine = board[row][col].value === '☀'
@@ -68,7 +63,6 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
       const newBoard = [...board]
       newBoard[row][col].clicked = true
       setClickedCells(clickedCells + 1)
-      console.log(clickedCells)
       setBoard(newBoard)
     }
     if(!boardTouched) setBoardTouched(true)
@@ -80,6 +74,7 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
     let clickedCells = 0
     let flagedMines = 0
     
+    let intMineCount = Number(mineCount)
     board.forEach(item => {
       return item.forEach(subitem => {
         if(subitem.value !== '☀' && subitem.clicked ) clickedCells += 1
@@ -87,11 +82,9 @@ const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoard
       })
      })
   
-     if(clickedCells === safeCells && flagedMines == mineCount) {
+     if(clickedCells === safeCells && flagedMines === intMineCount) {
        alert('ganaste')
      }
-    
-     console.log({clickedCells, safeCells, flagedMines, mineCount})
   }
 
 const revealNeighbors = (row, col) => {
@@ -116,7 +109,6 @@ const revealNeighbors = (row, col) => {
      if (cell.other !== '⚑') {
        cell.clicked = true
        setClickedCells(clickedCells + 1)
-       console.log(clickedCells)
       } 
     })
     setBoard(newBoard)

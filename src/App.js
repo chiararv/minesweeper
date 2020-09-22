@@ -59,7 +59,6 @@ function App() {
     setFlagCount(mineCount)
     setSeconds(0)
     setResetClock(true)
-    console.log('init')
   }
 
   useEffect(() => {
@@ -93,16 +92,7 @@ function App() {
     localStorage.clear()
     setResetClock(true)
   }
-  // const userWon = () => {
-  //   if(nonBombCells === clickedCells && flagCount === 0) {
-  //     setResetClock(true)
-  //     console.log('yayy')
-  //   }
-  //   console.log({clickedCells, nonBombCells, flagCount, height, width, mineCount})
-  // }
-  // useEffect(() => {
-  //   userWon()
-  // }, [clickedCells, flagCount])
+
 
   
 

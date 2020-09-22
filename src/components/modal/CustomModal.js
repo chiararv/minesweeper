@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {Modal, Paper} from '@material-ui/core'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Instructions from './instructions'
 import FinalStep from './FinalStep'
 import SecondStep from './SecondStep'

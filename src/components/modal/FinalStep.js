@@ -120,8 +120,8 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
               <TextField id="standard-basic" label="Bombas"  onChange={(e) => setCustomMineCount(e.target.value)}/>
             </form>
             <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
-              <Button className={classes.btn} onClick={() =>setCustom(false)}>Volver</Button>
-              <Button className={classes.btn} onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
+              <Button style={{fontSize: '16px'}} onClick={() =>setCustom(false)}>Volver</Button>
+              <Button style={{fontSize: '16px'}} onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
             </ButtonGroup>
           </div>
         )

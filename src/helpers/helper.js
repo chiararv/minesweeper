@@ -32,7 +32,6 @@ const fillNestedArray = (nestedArray, val, count) => {
       nestedArray[row][col].value = val
       count -= 1
     }
-    console.log('acc', nestedArray[row][col])
   }
   return nestedArray
 }
