@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import MineField from './components/MineField'
-import CustomModal from './components/modal/CustomModal'
+import CustomModal from './components/modals/instructionsModal/CustomModal'
 import {
   initBoard
 } from "./helpers/helper"
 import BoardInfo from './components/BoardInfo'
 import {ReactComponent as Logo} from './svg/covid-sweeper-logo.svg'
 import { makeStyles } from '@material-ui/core'
+import GameStatus from './components/modals/gameStatus/gameStatus'
 
 
 
@@ -30,25 +31,26 @@ const useStyles = makeStyles({
       height: width <= 12 && height <= 12 ? 100 : 70,
       margin: width <= 12 && height <= 12 ? 30 : 15
     }),
-  info: ({ height, width }) => ({
+  info: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
-    })
+    }
 })
 
 function App() {
   
   const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
-  const [mineCount, setMineCount] = useState(0)
+  const [mineCount, setMineCount] = useState(10)
   const [boardTouched, setBoardTouched] = useState(false)
   const [board, setBoard] = useState(null)
   const [resetClock, setResetClock] = useState(false)
   const [flagCount, setFlagCount] = useState(mineCount) 
   const [seconds, setSeconds] = useState(0)
   const [clickedCells, setClickedCells] = useState(0)
+  const [gameStatus, setGameStatus] = useState(null)
   
   const classes = useStyles({ height, width })
 
@@ -63,8 +65,32 @@ function App() {
 
   useEffect(() => {
     if (height) initGame()
-  }, [height, width, mineCount])
+  }, [height, width, mineCount, gameStatus])
 
+
+
+
+  const checkGameStatus = (board, safeCells, mineCount) => {
+    let clickedCells = 0
+    let flagedMines = 0
+    
+    let intMineCount = Number(mineCount)
+    board.forEach(item => {
+      return item.forEach(subitem => {
+        if(subitem.value !== '☀' && subitem.clicked ) clickedCells += 1
+        else if (subitem.value === '☀' && subitem.other === '⚑') flagedMines += 1       
+      })
+     })
+  
+     if(clickedCells === safeCells && flagedMines === intMineCount) {
+      setGameStatus('won')
+     }
+     
+  }
+
+  useEffect(() => {
+    if (flagCount === 0) checkGameStatus(board, nonBombCells, mineCount)
+  }, [flagCount, board])
 
   const saveGame = () => {
     localStorage.setItem( 'savedBoard', JSON.stringify(board))
@@ -91,13 +117,20 @@ function App() {
   const endGame = () => {
     localStorage.clear()
     setResetClock(true)
+    setGameStatus('lost')
   }
-
-
-  
 
   return (
     <div className={classes.container}>
+      {gameStatus && 
+        <GameStatus 
+          gameStatus={gameStatus}
+          setGameStatus={setGameStatus}
+          setHeight={setHeight}
+          setWidth={setWidth}
+          setMineCount={setMineCount}          
+        />
+      }
       <div className={classes.info}>
         <Logo className={classes.logo}/>
         <BoardInfo
@@ -125,6 +158,7 @@ function App() {
         setClickedCells={setClickedCells}
         safeCells={nonBombCells}
         mineCount={mineCount}
+        checkGameStatus={checkGameStatus}
         />
       <CustomModal 
         setHeight={setHeight}
@@ -132,6 +166,7 @@ function App() {
         setMineCount={setMineCount}
         setBoard={setBoard}
         savedBoard={savedBoard}
+        setGameStatus={setGameStatus}
       />
     </div>
   )

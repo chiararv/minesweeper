@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {TextField, ButtonGroup, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import {ReactComponent as Virus} from '../../svg/coronavirus.svg'
+import {ReactComponent as Virus} from '../../../svg/coronavirus.svg'
 
 const useStyles = makeStyles({
   root: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
   },
 });
 
-const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
+const FinalStep = ({closeModal, setWidth, setHeight, setMineCount, setGameStatus}) => {
 
   const [custom, setCustom] = useState(false)
   const [customHeight, setCustomHeight] = useState(null)
@@ -96,6 +96,7 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
       default:
         break
     }
+    setGameStatus(null)
     closeModal()
   }
 
@@ -121,7 +122,7 @@ const FinalStep = ({closeModal, setWidth, setHeight, setMineCount}) => {
             </form>
             <ButtonGroup className={classes.btnGroup} color="primary" aria-label="outlined primary button group">
               <Button style={{fontSize: '16px'}} onClick={() =>setCustom(false)}>Volver</Button>
-              <Button style={{fontSize: '16px'}} onClick={() => play("custom")} disabled={!customHeight | !customWidth | !customMineCount}>Jugar</Button>
+              <Button style={{fontSize: '16px'}} onClick={() => play("custom")} disabled={ !customHeight | !customWidth | !customMineCount}>Jugar</Button>
             </ButtonGroup>
           </div>
         )

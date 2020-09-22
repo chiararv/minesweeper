@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Cell from './Cell'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -18,74 +18,58 @@ const useStyles = makeStyles({
   },
 })
 
-const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells, mineCount, safeCells }) => {
+const MineField = ({ height, width, board, setBoard, saveGame, endGame, setBoardTouched, boardTouched, flagCount, setFlagCount, clickedCells, setClickedCells}) => {
   const classes = useStyles()
 
   const setOther = (row, col) => {
     const newBoard = [...board]
 
     if (!newBoard[row][col].clicked) {
-      let other
-
+      let newValue
       switch (newBoard[row][col].other) {
         case '':
           if(flagCount === 0) {
-            other =  '?'
+            newValue =  '?'
           } else {
-            other = '⚑'
+            newValue = '⚑'
             setFlagCount(flagCount - 1)
           }
           break
         case '⚑':
-          other = '?'
+          newValue = '?'
           setFlagCount(flagCount + 1)
           break
         case '?':
-          other = ''
+          newValue = ''
           break
         default:
           break
       }
-      newBoard[row][col].other = other
+      newBoard[row][col].other = newValue
     }
     setBoard(newBoard)
-    if (flagCount === 0) checkGameStatus(board, safeCells, mineCount)
   }
 
-  const clickCell = (row, col) => {    
-    const isMine = board[row][col].value === '☀'
-    const isEmpty = board[row][col].value === ''
-    const isFlag = board[row][col].other === '⚑'
 
-    if(!isFlag) {
-      if(isMine) mineTouched()   
-      if(isEmpty)revealNeighbors(row, col)
-      const newBoard = [...board]
-      newBoard[row][col].clicked = true
-      setClickedCells(clickedCells + 1)
-      setBoard(newBoard)
-    }
-    if(!boardTouched) setBoardTouched(true)
-    saveGame()
-    checkGameStatus(board, safeCells, mineCount)
-  }
 
-  const checkGameStatus = (board, safeCells, mineCount) => {
-    let clickedCells = 0
-    let flagedMines = 0
-    
-    let intMineCount = Number(mineCount)
-    board.forEach(item => {
-      return item.forEach(subitem => {
-        if(subitem.value !== '☀' && subitem.clicked ) clickedCells += 1
-        else if (subitem.value === '☀' && subitem.other === '⚑') flagedMines += 1       
-      })
-     })
-  
-     if(clickedCells === safeCells && flagedMines === intMineCount) {
-       alert('ganaste')
-     }
+const clickCell = (row, col) => {    
+  const isMine = board[row][col].value === '☀'
+  const isEmpty = board[row][col].value === ''
+  const isFlag = board[row][col].other === '⚑'
+
+  if(!isFlag) {
+    if(isMine) mineTouched()   
+    if(isEmpty)revealNeighbors(row, col)
+    const newBoard = [...board]
+    newBoard[row][col].clicked = true
+    setClickedCells(clickedCells + 1)
+    setBoard(newBoard)
   }
+  if(!boardTouched) setBoardTouched(true)
+  saveGame()
+}
+
+
 
 const revealNeighbors = (row, col) => {
     const arr = []

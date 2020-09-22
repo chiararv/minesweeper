@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import {Modal, Paper} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import Instructions from './instructions'
 import FinalStep from './FinalStep'
 import SecondStep from './SecondStep'
-import {ReactComponent as Logo} from '../../svg/covid-sweeper-logo.svg'
+import {ReactComponent as Logo} from '../../../svg/covid-sweeper-logo.svg'
 
 const useStyles = makeStyles({
   root: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   }
 });
 
-const CustomModal = ({ setHeight, setWidth, savedBoard, setBoard, setMineCount }) => {
+const CustomModal = ({ setHeight, setWidth, savedBoard, setBoard, setMineCount, setGameStatus }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(true)
   const [step, setStep] = useState('first')
@@ -65,7 +65,7 @@ const CustomModal = ({ setHeight, setWidth, savedBoard, setBoard, setMineCount }
         <Logo className={classes.logo}/>
         { step === 'first' && <Instructions stepHandler={stepHandler}/>}
         { step === 'second' && savedBoard && <SecondStep continueGame={continueGame} setStep = {setStep} closeModal={handleClose}/>}
-        { step === 'final' && <FinalStep setHeight={setHeight} setWidth={setWidth} setMineCount={setMineCount} closeModal={handleClose} />}
+        { step === 'final' && <FinalStep setHeight={setHeight} setWidth={setWidth} setMineCount={setMineCount} closeModal={handleClose} setGameStatus={setGameStatus}/>}
       </Paper>
     </Modal>
   )
