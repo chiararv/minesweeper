@@ -49,7 +49,7 @@ function App() {
   const [resetClock, setResetClock] = useState(false)
   const [flagCount, setFlagCount] = useState(mineCount) 
   const [seconds, setSeconds] = useState(0)
-  const [clickedCells, setClickedCells] = useState(0)
+  // const [clickedCells, setClickedCells] = useState(0)
   const [gameStatus, setGameStatus] = useState(null)
   
   const classes = useStyles({ height, width })
@@ -66,8 +66,6 @@ function App() {
   useEffect(() => {
     if (height) initGame()
   }, [height, width, mineCount, gameStatus])
-
-
 
 
   const checkGameStatus = (board, safeCells, mineCount) => {
@@ -154,8 +152,8 @@ function App() {
         flagCount={flagCount}
         setFlagCount={setFlagCount}
         endGame={endGame}
-        clickedCells={clickedCells}
-        setClickedCells={setClickedCells}
+        // clickedCells={clickedCells}
+        // setClickedCells={setClickedCells}
         safeCells={nonBombCells}
         mineCount={mineCount}
         checkGameStatus={checkGameStatus}

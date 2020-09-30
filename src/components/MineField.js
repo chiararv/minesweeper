@@ -62,7 +62,7 @@ const clickCell = (row, col) => {
     if(isEmpty)revealNeighbors(row, col)
     const newBoard = [...board]
     newBoard[row][col].clicked = true
-    setClickedCells(clickedCells + 1)
+    // setClickedCells(clickedCells + 1)
     setBoard(newBoard)
   }
   if(!boardTouched) setBoardTouched(true)
@@ -92,7 +92,7 @@ const revealNeighbors = (row, col) => {
      const cell = newBoard[el[0]][el[1]]
      if (cell.other !== '⚑') {
        cell.clicked = true
-       setClickedCells(clickedCells + 1)
+      //  setClickedCells(clickedCells + 1)
       } 
     })
     setBoard(newBoard)
@@ -107,7 +107,7 @@ const revealNeighbors = (row, col) => {
     setBoard(newBoard)
     setTimeout(() => {
       endGame()
-    }, 100)
+    }, 1000)
   }
 
   return (
@@ -116,7 +116,7 @@ const revealNeighbors = (row, col) => {
         <tbody>
           {board && board.map((item, row) => {
             return (
-              <tr key={row} className="boardRow" >
+              <tr key={row} >
                 {item.map((subitem, col) => {
                   return (
                     <Cell

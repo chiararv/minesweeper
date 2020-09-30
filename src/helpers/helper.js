@@ -35,7 +35,7 @@ const fillNestedArray = (nestedArray, val, count) => {
   }
   return nestedArray
 }
-
+// value != "*" xq si no habia veces que salian una celda en la que ya tenia una bomba y me la sobreescribia. El problema  de esto es que voy contando las minas totales entonces iba a tener una demas xq contaba la primera vez que la ponia y despues la segunda cunado sobreescribia.
 
 const calcAdjacentBombs = (nestedArray, val) => {
   for (let i = 0; i < nestedArray.length; i++) {
@@ -51,6 +51,8 @@ const calcAdjacentBombs = (nestedArray, val) => {
 const addOneToCalcAdjacent = (nestedArray, i, j, val)  => {
   let iList = [i - 1, i, i + 1]
   let jList = [j - 1, j, j + 1]
+
+  
   for (let a of iList) {
     if (nestedArray[a]) {
       for (let b of jList) {
